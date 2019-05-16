@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<style>
+			.search-box,.close-icon,.search-wrapper {
+				position: relative;
+				padding: 10px;
+				width: 200px;
+			}
+
+			.close-icon {
+				border:1px solid transparent;
+				background-color: transparent;
+				display: inline-block;
+				vertical-align: middle;
+				outline: 0;
+				padding: 0;
+				cursor: pointer;
+			}
+			.close-icon:after {
+				content: "X";
+				display: block;
+				width: 15px;
+				height: 15px;
+				position: absolute;
+				background-color: #FFFF;
+				z-index:1;
+				right: -20px;
+				bottom: 30px;
+				margin: auto;
+				padding: 2px;
+				text-align: center;
+				font-weight: normal;
+				font-size: 12px;
+				cursor: pointer;
+				top: -30px;
+			}
+			.search-box:not(:valid) ~ .close-icon {
+				display: none;
+			}
+			select {
+				width: 224px !important;
+			}
+			select>option {
+				height: 35px;
+			}
+			#dropdown {
+				margin-top: -23px;
+			}
+		
+		</style>
+	
+		
+	</head>
+
+	
+	<div class="search-wrapper">
+		<form>
+			<input type="text" id="value" name="focus" required class="search-box" autocomplete="on" placeholder="Search" />
+			<button class="close-icon" type="reset"></button>
+			<div id="dropdown">
+				<select name="list" id="list" class="search-box"></select>
+			</div>
+		</form>
+	</div>
+<script type="text/javascript"> 
+    var arr = [
+				"Afghanistan", 
+				"Albania", 
+				"Algeria", 
+				"Andorra", 
+				"Angola", 
+				"Anguilla", 
+				"Antigua &amp; Barbuda", 
+				"Argentina", 
+				"Armenia", 
+				"Aruba", 
+				"Australia", 
+				"Austria", 
+				"Azerbaijan", 
+				"Bahamas", 
+				"Bahrain", 
+				"Bangladesh", 
+				"Barbados", 
+				"Belarus", 
+				"Belgium", 
+				"Belize", 
+				"Benin", 
+				"Bermuda", 
+				"Bhutan", 
+				"Bolivia", 
+				"Bosnia &amp; Herzegovina", 
+				"Botswana", 
+				"Brazil", 
+				"British Virgin Islands", 
+				"Brunei", 
+				"Bulgaria"];
+var input = document.getElementById('value');
+var optionsVal = document.getElementById('list');
+document.getElementById('dropdown').style.display = 'none';
+input.addEventListener('keyup', show);
+optionsVal.onclick = function () {
+    setVal(this);
+};
+
+
+RegExp.escape = function (s) {
+    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+};
+
+function show() {
+    var dropdown = document.getElementById('dropdown');
+    dropdown.style.display = 'none';
+
+    optionsVal.options.length = 0;
+
+    if (input.value) {
+        dropdown.style.display = 'block';
+        optionsVal.size = 3;
+        var textCountry = input.value;
+
+        for (var i = 0; i < arr.length; i++) {
+            var testableRegExp = new RegExp(RegExp.escape(textCountry), "i");
+            if (arr[i].match(testableRegExp)) {
+                addValue(arr[i], arr[i]);
+
+            }
+        }
+        
+        var size = dropdown.children[0].children;
+        if (size.length > 0)
+        {
+           var defaultSize = 16;
+           if (size.length < 10)
+           {
+              defaultSize *= size.length;
+           }
+           else
+           {
+              defaultSize *= 10;
+           }
+           dropdown.children[0].style.height = (defaultSize + 15) + "px";
+		   if( (defaultSize + 15) > 125 )
+			dropdown.children[0].style.overflowY = "auto"
+			else
+			dropdown.children[0].style.overflowY = "hidden"
+        } else {
+			dropdown.style.display = 'none';
+		}
+        //dropdown.children[0].style.width = "200px";
+    }
+}
+
+function addValue(text, val) {
+    var createOptions = document.createElement('option');
+    optionsVal.appendChild(createOptions);
+    createOptions.text = text;
+    createOptions.value = val;
+}
+
+
+function setVal(selectedVal) {
+    input.value = selectedVal.value;
+    document.getElementById('dropdown').style.display = 'none';
+}
+   
+</script> 
+</html>
